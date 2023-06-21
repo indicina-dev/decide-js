@@ -1,6 +1,5 @@
 import { StatementType } from './enums.js'
 import { DecideClient } from './decideClient.js'
-// import { DecideTaggedStatement } from './taggedTransactions.js'
 import { BaseModel } from './baseModel.js'
 import { PDFStatus } from './enums.js'
 
@@ -39,7 +38,6 @@ class Analysis extends BaseModel {
       const expandedData = new BaseModel(jsonResponse["data"]);
       return expandedData; 
     } catch (error) {
-      // console.error('Error occurred while getting tagged statements:', error)
       this.status = 'error'
       return error 
     }

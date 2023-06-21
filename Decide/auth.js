@@ -53,7 +53,6 @@ class Auth {
 
   async refresh() {
     try {
-      // Used to refresh token
       this._code = await fetchAuthCode(LOGIN_URL)
     } catch (error) {
       throw new DecideException('Error occurred while refreshing token', error);

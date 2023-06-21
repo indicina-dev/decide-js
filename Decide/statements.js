@@ -37,7 +37,6 @@ class DecideStatement {
       .pdf({ file, customerId, bankCode, currency, password, modelName })
       .then(jsonResponse => {
         const { jobId } = jsonResponse?.data
-        // const jobID = jsonResponse?.data?.id || null
         return new Analysis(
           jsonResponse?.data,
           jsonResponse?.data?.status,
@@ -61,19 +60,7 @@ class DecideStatement {
     })
   }
 
-  // analyze(callback) {
-  //   this.build_request_body();
-  //   const json_response = this.client.post(this.request_body);
-  //   const job_id = json_response?.data?.id || null;
-  //   const analysis = new Analysis({
-  //     data: json_response.data,
-  //     status: json_response.status,
-  //     statement_type: this.statement_type,
-  //     job_id: job_id,
-  //   });
-  //   callback(analysis);
-  // }
-
+ 
   build_request_body () {
     throw new Error('Not implemented')
   }
@@ -88,17 +75,7 @@ class PDFStatement extends DecideStatement {
 class CSVStatement extends DecideStatement {
   constructor () {
     super('bsp/file', 'multipart/form-data')
-    // this.statement_type = StatementType.CSV
-    // this.customer_id = customer.customer_id
-    // this.csv_path = csv_path
   }
-
-  // build_request_body () {
-  //   this.request_body = {
-  //     file_statement: this.csv_path,
-  //     'customer[id]': this.customer_id
-  //   }
-  // }
 }
 
 class JSONStatement extends DecideStatement {

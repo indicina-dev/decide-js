@@ -9,6 +9,7 @@ class Customer extends BaseModel {
           "last_name": last_name,
           "phone": phone
       }, kwargs);
+      this.kwargs = kwargs; 
   }
 
   get info() {
@@ -22,7 +23,7 @@ class Customer extends BaseModel {
   }
 
   build_dict_values(key, value) {
-      return this._data[key];
+      return this[key];
   }
 }
 

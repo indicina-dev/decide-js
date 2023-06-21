@@ -2,7 +2,6 @@ import fetchMock from 'jest-fetch-mock';
 import { DecideClient } from '../Decide/decideClient';
 import { DecideException } from '../Decide/decideException';
 
-// Mocked dependencies or values
 
 jest.setMock('isomorphic-fetch', fetchMock);
 jest.mock('../Decide/auth', () => ({
@@ -11,6 +10,7 @@ jest.mock('../Decide/auth', () => ({
     code: 'mocked-auth-code',
   })),
 }));
+
 const BASE_URL = 'https://api.example.com';
 const mockResponse = (status, body) => {
   return new Response(JSON.stringify(body), {
