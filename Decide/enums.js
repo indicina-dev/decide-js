@@ -35,7 +35,21 @@ export const Bank = {
     UNITY : "215",
     UNION : "032",
     ZENITH : "057",
-}
+
+  async getBankList() {
+    try {
+      const response = await axios.get(BANK_LIST_URL);
+      if (response.status === 200) {
+        const bankList = response.data.data;
+        return bankList.map((bank) => ({ name: bank.name, code: bank.code }));
+      } else {
+        throw new Error(`Failed to get bank list. Status code: ${response.status}`);
+      }
+    } catch (error) {
+      throw new Error(`Failed to get bank list. Error: ${error.message}`);
+    }
+  }
+};
 
 
 export const StatementFormat = {
