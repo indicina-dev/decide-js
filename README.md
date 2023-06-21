@@ -1,4 +1,4 @@
-## decide-python-package
+## decide-javascript-package
 ![img.png](assets/img.png)
 
 ---
@@ -29,7 +29,7 @@
 ---
 # About
 Decide helps users make risk-free decisions based on an analysis of their banking transactions using extracted financial data.
-The Decide SDK helps developers plug into the functionalities of Decide from their python projects.
+The Decide SDK helps developers plug into the functionalities of Decide from their projects.
 
 - **Website:** https://developers.indicina.co
 
