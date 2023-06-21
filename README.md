@@ -32,12 +32,8 @@ Decide helps users make risk-free decisions based on an analysis of their bankin
 The Decide SDK helps developers plug into the functionalities of Decide from their python projects.
 
 - **Website:** https://developers.indicina.co
-- **Documentation:** https://developers.indicina.co/docs/decide-python-library
 
 # Using the App
-### Installation
-In your python project use the command `pip install indicina-decide` to install the Decide SDK
-
 ### Authorization
 #### sh
 ```
@@ -46,8 +42,6 @@ export INDICINA_CLIENT_SECRET=my_secret
 ```
 #### Javascript
 ```
-import os
-
  const client_id = process.env.INDICINA_CLIENT_ID;
  const client_secret = process.env.INDICINA_CLIENT_SECRET;
 ```
@@ -394,7 +388,12 @@ PDFStatus could take one of the following values.
 
 ```
 # Example usage on accessing the analysis response
-analysis = statement.analyze()
+  const analysis = await statementObj.analyzePDF({
+       file,
+       bankCode: Bank.KUDA,
+       customerId: customer.customer_id,
+       currency: Currency.NGN
+    })
 console.log(f"Analysis status is: {analysis.status}")
 
 # wait for analysis to be done
