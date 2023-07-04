@@ -5,10 +5,10 @@ import { Currency, StatementType } from './enums.js'
 
 class DecideStatement {
   constructor (path, content_type) {
-    this.client = new DecideClient(path, content_type)
+    this.client = new DecideClient(`client/${path}`, content_type)
   }
 
-  analyzeJSON ({ format, statement, customer }) {
+  analyzeJSON ({ format, statement, customer, scorecardIds }) {
     const customerJson = {
       id: customer.customer_id
     }
@@ -17,8 +17,11 @@ class DecideStatement {
       bankStatement: {
         type: format,
         content: statement
-      }
+      },
+      scorecardIds: scorecardIds
     }
+    console.log("^^^^666666")
+    console.log(requestBody)
 
     return this.client.json(requestBody).then(jsonResponse => {
       return new Analysis(jsonResponse.data, jsonResponse.status, 'JSON')

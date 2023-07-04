@@ -1,3 +1,8 @@
+import axios from 'axios'
+
+const BANK_LIST_URL = "https://api.indicina.co/api/v3/banks"
+
+
 export const StatementType = {
     JSON: "json",
     CSV: "csv",
@@ -35,6 +40,7 @@ export const Bank = {
     UNITY : "215",
     UNION : "032",
     ZENITH : "057",
+    HERITAGE: "030",
 
   async getBankList() {
     try {

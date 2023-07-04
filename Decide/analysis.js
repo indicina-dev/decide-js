@@ -7,7 +7,7 @@ class Analysis extends BaseModel {
   constructor (data, status, statement_type, job_id = null) {
     super(data)
     if (statement_type === StatementType.PDF) {
-      this._status = PDFStatus[data.status]
+      this._status = PDFStatus[data?.status]
       this.job_id = data?.jobId || job_id
     }
     this._status = status
@@ -20,11 +20,11 @@ class Analysis extends BaseModel {
       this.pdf_client.get()
       return this.pdf_client
     }
-    this.BehaviouralAnalysis = new BehaviouralAnalysis();
-    this.TransactionPatternAnalysis = new TransactionPatternAnalysis();
-    this.SpendAnalysis = new SpendAnalysis();
-    this.IncomeAnalysis = new IncomeAnalysis();
-    this.CashFlowAnalysis = new CashFlowAnalysis();
+      this.behaviouralAnalysis = new BehaviouralAnalysis(data?.behaviouralAnalysis)
+      this.cashFlowAnalysis = new CashFlowAnalysis(data?.cashFlowAnalysis)
+      this.incomeAnalysis = new IncomeAnalysis(data?.incomeAnalysis)
+      this.spendAnalysis = new SpendAnalysis(data?.spendAnalysis)
+      this.transactionPatternAnalysis = new TransactionPatternAnalysis(data?.transactionPatternAnalysis)   
   }
 
   async getTransactionTags () {
@@ -51,7 +51,7 @@ class Analysis extends BaseModel {
       const json_response = await this.pdf_client.get()
       this._status = PDFStatus[json_response?.data?.status]
       if (this._status === PDFStatus.DONE) {
-        super._init(json_response.data.decideResponse)
+        super._init(json_response.data?.decideResponse)
       }
     }
     return this._status
@@ -74,96 +74,91 @@ class Analysis extends BaseModel {
 }
 
 class BehaviouralAnalysis extends BaseModel {
-  constructor () {
-    super({})
-    this.accountSweep = null
-    this.gamblingRate = null
-    this.inflowOutflowRate = null
-    this.loanInflowRate = null
-    this.loanRepaymentInflowRate = null
-    this.loanRepayments = null
-    this.topIncomingTransferAccount = null
-    this.topTransferRecipientAccount = null
+  constructor (data) {
+    super(data)
+    this.accountSweep = data?.accountSweep
+    this.gamblingRate = data?.gamblingRate
+    this.inflowOutflowRate = data?.inflowOutflowRate
+    this.loanAmount = data?.loanAmount
+    this.loanInflowRate = data?.loanInflowRate
+    this.loanRepaymentInflowRate = data?.loanRepaymentInflowRate
+    this.loanRepayments = data?.loanRepayments
+    this.topIncomingTransferAccount = data?.topIncomingTransferAccount
+    this.topTransferRecipientAccount = data?.topTransferRecipientAccount
   }
 }
 
 
 class CashFlowAnalysis extends BaseModel {
-  constructor () {
-    super({})
-    this.accountActivity = null
-    this.averageBalance = null
-    this.averageCredits = null
-    this.averageDebits = null
-    this.closingBalance = null
-    this.firstDay = null
-    this.lastDay = null
-    this.monthPeriod = null
-    this.netAverageMonthlyEarnings = null
-    this.noOfTransactingMonths = null
-    this.totalCreditTurnover = null
-    this.totalDebitTurnover = null
-    this.yearInStatement = null
+  constructor (data) {
+    super(data)
+    this.accountActivity = data?.accountActivity
+    this.averageBalance = data?.averageBalance
+    this.averageCredits = data?.averageCredits
+    this.averageDebits = data?.averageDebits
+    this.closingBalance = data?.closingBalance
+    this.firstDay = data?.firstDay
+    this.lastDay = data?.lastDay
+    this.monthPeriod = data?.monthPeriod
+    this.netAverageMonthlyEarnings = data?.netAverageMonthlyEarnings
+    this.noOfTransactingMonths = data?.noOfTransactingMonths
+    this.totalCreditTurnover = data?.totalCreditTurnover
+    this.totalDebitTurnover = data?.totalDebitTurnover
+    this.yearInStatement = data?.yearInStatement
+    this.maxEmiEligibility = data?.maxEmiEligibility
+    this.emiConfidenceScore = data?.emiConfidenceScore
+    this.totalMonthlyCredit = data?.totalMonthlyCredit
+    this.totalMonthlyDebit = data?.totalMonthlyDebit
+    this.averageMonthlyCredit = data?.averageMonthlyCredit
+    this.averageMonthlyDebit = data?.averageMonthlyDebit
   }
 }
+
 
 class IncomeAnalysis extends BaseModel {
-  constructor () {
-    super({})
-    this.averageOtherIncome = null
-    this.averageSalary = null
-    this.confidenceIntervalOnSalaryDetection = null
-    this.expectedSalaryDay = null
-    this.lastSalaryDate = null
-    this.medianIncome = null
-    this.numberOtherIncomePayments = null
-    this.numberOfSalaryPayments = null
-    this.salaryEarner = null
-    this.salaryFrequency = null
-    this.gigWorker = null
+  constructor (data) {
+    super(data)
+    this.salaryEarner = data?.salaryEarner
+    this.medianIncome = data?.medianIncome
+    this.averageOtherIncome = data?.averageOtherIncome
+    this.expectedSalaryDay = data?.expectedSalaryDay
+    this.lastSalaryDate = data?.lastSalaryDate
+    this.averageSalary = data?.averageSalary
+    this.confidenceIntervalonSalaryDetection = data?.confidenceIntervalonSalaryDetection
+    this.salaryFrequency = data?.salaryFrequency
+    this.numberSalaryPayments = data?.numberSalaryPayments
+    this.numberOtherIncomePayments = data?.numberOtherIncomePayments
+    this.gigWorker = data?.gigWorker
   }
 }
-
 class SpendAnalysis extends BaseModel {
-  constructor () {
-    super({})
-    this.expenseChannels = new ExpenseChannels({})
-    this.expenseCategories = new ExpenseCategories({})
-    this.averageRecurringExpense = null
-    this.hasRecurringExpense = null
-    this.totalExpenses = null
-  }
-
-  buildDictValues (key, value) {
-    return value
+  constructor (data) {
+    super(data)
+    this.averageRecurringExpense = data?.averageRecurringExpense
+    this.hasRecurringExpense = data?.hasRecurringExpense
+    this.averageMonthlyExpenses = data?.averageMonthlyExpenses
+    this.expenseChannels = data?.expenseChannels.map(channel => new ExpenseChannels(channel))
+    this.expenseCategories = data?.expenseCategories.map(category => new ExpenseCategories(category))
   }
 }
-
 class TransactionPatternAnalysis extends BaseModel {
-  constructor () {
-    super({})
-    this.highestMAWOCredit = null
-    this.highestMAWODebit = null
-    this.lastDateOfCredit = null
-    this.lastDateOfDebit = null
-    this.MAWWZeroBalanceInAccount = null
-    this.mostFrequentBalanceRange = null
-    this.mostFrequentTransactionRange = null
-    this.NODWBalanceLess5000 = null
-    this.recurringExpense = null
-    this.transactionsBetween100000And500000 = null
-    this.transactionsBetween10000And100000 = null
-    this.transactionsGreater500000 = null
-    this.transactionsLess10000 = null
-    this.transactionRanges = null
-    this.NODWBalanceLess = null
-  }
-
-  buildDictValues (key, value) {
-    if (key in _analysis_call_dict) {
-      return _analysis_call_dict[key](value)
-    }
-    return value
+  constructor (data) {
+    super(data)
+    this.MAWWZeroBalanceInAccount = data?.MAWWZeroBalanceInAccount
+    this.NODWBalanceLess5000 = data?.NODWBalanceLess5000
+    this.NODWBalanceLess = data?.NODWBalanceLess
+    this.highestMAWOCredit = data?.highestMAWOCredit
+    this.highestMAWODebit = data?.highestMAWODebit
+    this.lastDateOfCredit = data?.lastDateOfCredit
+    this.lastDateOfDebit = data?.lastDateOfDebit
+    this.mostFrequentBalanceRange = data?.mostFrequentBalanceRange
+    this.mostFrequentTransactionRange = data?.mostFrequentTransactionRange
+    this.recurringExpense = data?.recurringExpense
+    this.transactionsBetween100000And500000 = data?.transactionsBetween100000And500000
+    this.transactionsBetween10000And100000 = data?.transactionsBetween10000And100000
+    this.transactionsGreater500000 = data?.transactionsGreater500000
+    this.transactionsLess10000 = data?.transactionsLess10000
+    this.transactionRanges = data?.transactionRanges
   }
 }
 
@@ -180,30 +175,21 @@ class AccountDetails extends BaseModel {
 }
 
 class ExpenseChannels extends BaseModel {
-  constructor (data) {
-    super({})
-    if (data && typeof data[Symbol.iterator] === 'function') {
-      for (const dict of data) {
-        if (dict && dict.key) {
-          this[dict.key] = dict.value
-        }
-      }
-    }
+  constructor(data) {
+    super(data);
+    this.key = data?.key;
+    this.value = data?.value;
   }
 }
 
 class ExpenseCategories extends BaseModel {
-  constructor (data) {
-    super({})
-    if (data && typeof data[Symbol.iterator] === 'function') {
-      for (const dict of data) {
-        if (dict && dict.key) {
-          this[dict.key] = dict.value
-        }
-      }
-    }
+  constructor(data) {
+    super(data);
+    this.key = data?.key;
+    this.value = data?.value;
   }
 }
+
 
 class Rule {
   constructor () {

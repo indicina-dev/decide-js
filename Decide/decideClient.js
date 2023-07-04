@@ -19,7 +19,7 @@ class DecideClient {
       ...this.headers,
       ...kwargs?.headers,
     };
-  
+ 
     let response = await fetch(full_path, {
       method,
       headers,
@@ -55,15 +55,9 @@ class DecideClient {
     throw new Error('You cannot assign a value to the headers.')
   }
 
- async get() {
+ async get(kwargs) {
   try {
-
-    const response = await fetch(this.url, {
-      method: 'GET',
-      headers: this.headers,
-      body: undefined,
-    });
-
+    const response = await this._req('GET', kwargs)
     if (!response.ok) {
       throw new DecideException(response.status, await response.text());
     }
@@ -75,9 +69,16 @@ class DecideClient {
 }
 
   
-  async json({ customer, bankStatement }) {
+async post(data) {
+  const response = await this._req('POST', {
+    body: JSON.stringify(data)
+  })
+  return response.json()
+}
+
+  async json({ customer, bankStatement, scorecardIds }) {
     const response = await this._req('POST', {
-      body: JSON.stringify({ customer, bankStatement })
+      body: JSON.stringify({ customer, bankStatement, scorecardIds })
     })
     return response.json()
   }
@@ -117,6 +118,22 @@ class DecideClient {
     const response = await this._req('PUT', kwargs)
     return response.json()
   }
+
+  async put(kwargs) {
+    const response = await this._req('PUT', kwargs);
+    return response.json();
+  }
+
+  async patch(body) {
+    const response = await this._req('PATCH', { body: JSON.stringify(body) });
+    return response.json();
+  }
+
+  async delete(kwargs) {
+    const response = await this._req('DELETE', kwargs);
+    return response.json();
+  }
+  
 }
 
 export { DecideClient }
