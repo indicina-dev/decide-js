@@ -1,9 +1,8 @@
+/* eslint-disable no-undef */
 import winston from 'winston';
-import { MAX_RETRIES, LOGIN_URL } from "./globalVar.js"
+import { LOGIN_URL } from "./globalVar.js"
 import { DecideException } from './decideException.js'
 import axios from 'axios'
-
-const adapter = { retry: { retries: MAX_RETRIES } }
 
 const logger = winston.createLogger({
   level: 'info',

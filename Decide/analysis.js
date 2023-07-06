@@ -6,20 +6,12 @@ import { PDFStatus } from './enums.js'
 class Analysis extends BaseModel {
   constructor (data, status, statement_type, job_id = null) {
     super(data)
-    if (statement_type === StatementType.PDF) {
+    if (statement_type.toLowerCase() === StatementType.PDF) {
       this._status = PDFStatus[data?.status]
       this.job_id = data?.jobId || job_id
     }
     this._status = status
     this.statement_type = statement_type
-    if (this.statement_type.toLowerCase() === StatementType.PDF) {
-      this.pdf_client = new DecideClient(
-        `pdf/extract/${job_id}/status`,
-        'multipart/form-data'
-      )
-      this.pdf_client.get()
-      return this.pdf_client
-    }
       this.behaviouralAnalysis = new BehaviouralAnalysis(data?.behaviouralAnalysis)
       this.cashFlowAnalysis = new CashFlowAnalysis(data?.cashFlowAnalysis)
       this.incomeAnalysis = new IncomeAnalysis(data?.incomeAnalysis)

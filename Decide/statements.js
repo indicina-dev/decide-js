@@ -1,7 +1,5 @@
 import { Analysis } from './analysis.js'
 import { DecideClient } from './decideClient.js'
-import { Customer } from './customer.js'
-import { Currency, StatementType } from './enums.js'
 
 class DecideStatement {
   constructor (path, content_type) {
@@ -20,9 +18,6 @@ class DecideStatement {
       },
       scorecardIds: scorecardIds
     }
-    console.log("^^^^666666")
-    console.log(requestBody)
-
     return this.client.json(requestBody).then(jsonResponse => {
       return new Analysis(jsonResponse.data, jsonResponse.status, 'JSON')
     })
@@ -39,9 +34,9 @@ class DecideStatement {
     return this.client
       .pdf({ file, customerId, bankCode, currency, password, modelName })
       .then(jsonResponse => {
-        const { jobId } = jsonResponse?.data
+        const { jobId } = jsonResponse.data
         return new Analysis(
-          jsonResponse?.data,
+          jsonResponse?.data?.decideResponse,
           jsonResponse?.data?.status,
           'PDF',
           jobId
