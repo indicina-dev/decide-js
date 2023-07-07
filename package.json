@@ -1,7 +1,14 @@
 {
+    "name": "@indicina-dev/decide-library",
+    "version": "1.2.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/indicina-dev/decide-js"
+      },
     "scripts": {
         "start": "node -r ./esm.js your-main-file.js",
-        "test": "jest"
+        "test": "jest",
+        "build": "mkdir -p dist && cp -R decide/* dist/"
     },
     "type": "module",
     "devDependencies": {

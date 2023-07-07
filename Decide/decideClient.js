@@ -120,7 +120,8 @@ class DecideClient {
 
     const headers = formData.getHeaders()
     const response = await this._req('POST', { body: formData, headers })
-    const { jobId } = await response.json().data
+    const status_response = await response.json()
+    const jobId = status_response?.data?.jobId
 
     if (!jobId) {
       throw new IllegalAssignmentException('Failed to assign job ID')

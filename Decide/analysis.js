@@ -9,6 +9,7 @@ class Analysis extends BaseModel {
     if (statement_type.toLowerCase() === StatementType.PDF) {
       this._status = PDFStatus[data?.status]
       this.job_id = data?.jobId || job_id
+      this.id = data?.jobId || job_id
     }
     this._status = status
     this.statement_type = statement_type
@@ -21,7 +22,7 @@ class Analysis extends BaseModel {
 
   async getTransactionTags () {
     this.taggedClient = new DecideClient(
-      `analysis/${this.id}/tagged-transactions`,
+      `client/analysis/${this.id}/tagged-transactions`,
       'application/json'
     )
     try {
