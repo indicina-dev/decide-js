@@ -46,7 +46,7 @@ export INDICINA_CLIENT_SECRET=my_secret
  const client_secret = process.env.INDICINA_CLIENT_SECRET;
 ```
 
-You can get your `INDICINA_CLIENT_ID` and `INDICINA_CLIENT_SECRET` from [GitHub Pages](https://developers.indicina.co/docs/decide-api-keys).
+You can get your `INDICINA_CLIENT_ID` and `INDICINA_CLIENT_SECRET` from [here](https://indicina.co/decide/decide-registration/).
 
 ### Sample Code
 #### JSON Statement
